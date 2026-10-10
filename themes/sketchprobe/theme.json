@@ -1,0 +1,49 @@
+{
+  "name": "SketchProbe · XStatus",
+  "short": "sketchprobe",
+  "version": "1.0.0",
+  "type": "spa",
+  "author": "moxuun / yqhui",
+  "description": "原生 XStatus 手绘纸张主题，节点卡片、网络质量、服务状态。",
+  "config": [
+    {
+      "key": "title",
+      "type": "string",
+      "label": "站点标题（空白跟随站点设置）",
+      "default": ""
+    },
+    {
+      "key": "paper",
+      "type": "select",
+      "label": "纸张纹理",
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": "方格"
+        },
+        {
+          "value": "dots",
+          "label": "点阵"
+        },
+        {
+          "value": "lines",
+          "label": "横线"
+        },
+        {
+          "value": "plain",
+          "label": "纯色"
+        }
+      ]
+    },
+    {
+      "key": "wobble",
+      "type": "number",
+      "label": "手绘笔触",
+      "default": 2,
+      "min": 0,
+      "max": 4,
+      "step": 1
+    }
+  ]
+}

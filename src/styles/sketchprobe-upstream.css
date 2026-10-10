@@ -1,0 +1,1453 @@
+/* Excalifont, Excalidraw's own handwriting face, self-hosted. OFL-1.1; the
+   copyright and full licence text ship beside it in /licenses. 51 KB of woff2,
+   and only Latin and digits: a CJK handwriting face is 6-13 MB, which no
+   visitor of a status page should be made to download for a label. Chinese
+   falls through to whatever the reader's system has, kai first. */
+@font-face {
+  font-family: "Excalifont";
+  src: url("/fonts/Excalifont-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  /* Paper and ink. Warm greys rather than neutral ones: the whole palette is
+     meant to sit on cream stock under a desk lamp, not on a screen. */
+  --paper: #fcfaf4;
+  --paper-2: #f5f1e6;
+  --ink: #2a2721;
+  --ink-soft: #56524a;
+  --muted: #857f73;
+  --faint: #b0a99a;
+  --rule: #cabfa9;
+  --grid: rgba(92, 114, 142, 0.15);
+
+  /* The wash a card is shaded with: a pencil grey rather than a colour. It sits
+     behind the text and the meters, so it has to read as shading at a glance and
+     then get out of the way -- a tint with a hue of its own turns a grid of
+     cards into a grid of highlights, and competes with the pencil colours that
+     carry meaning. */
+  --hatch: #dcd2c2;
+
+  /* Coloured pencil: muted, close in value to each other so a card showing four
+     of them at once stays quiet. */
+  --ok: #6e8f5a;
+  --warn: #bd8a2c;
+  --bad: #b8523c;
+  --accent: #4e7ca1;
+  --plum: #8a5f86;
+
+  /* The map's own palette. Both grounds are washes rather than fills, so the
+     page's ruling and grain keep showing through the pencil -- an opaque ground
+     would cut a rectangle out of the paper. The sea and the land are told apart
+     by temperature and by weight of pencil, not by one of them being solid. */
+  --map-land: rgba(198, 174, 126, 0.55);
+  --map-land-ink: #93805a;
+  --map-coast: #6b6053;
+  --map-sea-ink: #5b86ad;
+  --map-sea: color-mix(in srgb, var(--accent) 10%, transparent);
+
+  --font-hand: "Excalifont", "LXGW WenKai", "Kaiti SC", "KaiTi", "STKaiti", "TW-Kai", "Noto Serif SC", ui-serif, serif;
+  --font-ui: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Maple Mono NF CN", Menlo, Consolas, monospace;
+
+  --gap: 16px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* A dark notebook rather than an inverted light one: the paper goes to warm
+     charcoal and the ink to chalk, so the same drawings read the same way. */
+  --paper: #1d1c19;
+  --paper-2: #252420;
+  --ink: #ece6d9;
+  --ink-soft: #c2bbac;
+  --muted: #938c7d;
+  --faint: #6b6559;
+  --rule: #474339;
+  --grid: rgba(205, 219, 238, 0.075);
+
+  /* The same step up from the paper as the light theme's is down from its own,
+     not the same colour: on charcoal the warm grey reads as graphite rather
+     than as a lighter paper. */
+  --hatch: #454138;
+
+  --ok: #90b676;
+  --warn: #dfad55;
+  --bad: #d8765c;
+  --accent: #7fa8cc;
+  --plum: #b184ad;
+
+  --map-land: rgba(110, 98, 68, 0.32);
+  --map-land-ink: #9a8b6a;
+  --map-coast: #a2967e;
+  --map-sea-ink: #7aa4c6;
+  --map-sea: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The paper's ruling. Plain CSS gradients rather than an SVG filter: the browser
+   tiles and caches them for nothing, where a filter over the page would be
+   re-rasterised on every repaint. */
+body[data-paper="grid"] {
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+body[data-paper="dots"] {
+  background-image: radial-gradient(var(--grid) 1.3px, transparent 1.3px);
+  background-size: 18px 18px;
+}
+body[data-paper="lines"] {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 23px, var(--grid) 23px 24px);
+}
+
+/* A whisper of grain, so the paper is not a flat fill. A small tile of noise
+   repeated, not a filter on the page: this is rasterised once and cached. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: multiply;
+}
+:root[data-theme="dark"] body::before {
+  opacity: 0.2;
+  mix-blend-mode: screen;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+}
+
+/* ------------------------------------------------------------------ type -- */
+
+/* Handwriting, for labels and headings: anything the reader scans for rather
+   than reads. */
+.hand {
+  font-family: var(--font-hand);
+}
+
+/* Every figure the page reports. A monospaced, tabular face, because these
+   change every two seconds and a proportional one would make the column widths
+   breathe -- the one place where the sketch stops and the instrument reading
+   starts. */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-family: var(--font-hand);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.tiny {
+  font-size: 12px;
+}
+
+/* A mark and the word it belongs to, kept on one line and one baseline. Used
+   wherever a symbol is added to existing text rather than placed in a box. */
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* A mark set inline in a run of text rather than in a flex row of its own: the
+   baseline nudge is what keeps a 12px symbol level with 12px text. */
+.mark-inline {
+  vertical-align: -2.5px;
+  margin-right: 5px;
+}
+
+/* --------------------------------------------------------------- sketch -- */
+
+.sketch-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Rough strokes overshoot their geometry. Clipping them at the element's edge
+     reads as a border that is broken in places, so the shapes are drawn inside
+     the element instead and allowed to paint over it. */
+  overflow: visible;
+  pointer-events: none;
+  /* Behind the content, in front of the box's own background. The container
+     carries `isolation: isolate` so this cannot escape behind the page. */
+  z-index: -1;
+}
+
+.sketch-box,
+.sketch-ring {
+  position: relative;
+}
+
+/* Every element that hosts a drawing directly: `isolation` keeps the layer's
+   negative z-index inside it, so the drawing lands behind that element's content
+   and not behind an ancestor's background. */
+.sketch-box,
+.sketch-bar,
+.sketch-rule,
+.sketch-ring {
+  isolation: isolate;
+}
+
+.sketch-bar {
+  position: relative;
+  width: 100%;
+}
+
+.sketch-rule {
+  position: relative;
+  height: 2px;
+}
+
+.sketch-ring {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+}
+
+/* --------------------------------------------------------------- layout -- */
+
+.shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 22px 22px 72px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spread {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* A card's whole surface is one control. Kept as a real button rather than a
+   click handler on the box, so it is focusable and announced as a control. */
+.card-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------- topbar -- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.brand-mark {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 27px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.brand-rule {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: -3px;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-family: var(--font-hand);
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.nav-item:hover {
+  color: var(--ink);
+}
+.nav-item[aria-current="page"] {
+  color: var(--ink);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--ink-soft);
+}
+.icon-btn:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+}
+
+/* The two ends of a page that runs to two or three screens. Pinned rather than
+   parked in the footer, where "跳到底部" would already be at the bottom and
+   "回到顶部" would be a screen away from the reader who wants it. */
+.jump {
+  position: fixed;
+  /* Sits in the shell's right margin, which is 22px wide; the readings it passes
+     end 37px in from the window edge (22px shell + 15px panel padding), so a
+     button narrower than 33px clears the figure column. 4px inside the window
+     when the shell fills it, and the same 4px past the shell's own edge once it
+     is centred past 1440px. */
+  right: max(4px, calc((100vw - 1440px) / 2 + 4px));
+  bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* A card's whole surface is a link at 2, and these sit over the cards. */
+  z-index: 3;
+}
+
+/* Over the cards rather than in the bar, so the icons need their own ground. */
+.jump .icon-btn {
+  /* 26px, not the bar's 32px: at 32 the button's left edge landed 1px inside the
+     figure column, which left no room for a font fallback to widen a reading.
+     26px keeps 9px of clearance and is still over the 24px minimum target. */
+  width: 26px;
+  height: 26px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+}
+
+.jump .icon-btn:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- notice -- */
+
+.notice {
+  padding: 11px 15px;
+  background: var(--paper-2);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.notice-tag {
+  font-family: var(--font-hand);
+  color: var(--warn);
+  margin-right: 8px;
+}
+
+/* -------------------------------------------------------------- summary -- */
+
+/* Exactly four summary tiles: wide viewports lay them four-across, tablets
+   use a balanced 2x2 grid (avoiding a ragged 3+1 layout), and phones stack them
+   so values and drawings never collide. */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+@media (max-width: 960px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tile {
+  padding: 13px 15px 15px;
+}
+
+.tile-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 25px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-value.small {
+  font-size: 19px;
+}
+
+.tile-of {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.tile-note {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A summary tile keeps its text in a column of its own, so the figure drawn in
+   the blank beside it can drop below on a tile too narrow for both, rather than
+   end up over the numbers. The detail page's tile is a plain `.tile` and is
+   unaffected. */
+.tile-figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.tile-text {
+  flex: 1 1 128px;
+  /* Without this the value's ellipsis never engages: a flex item refuses to
+     shrink past its content, and the drawing beside it would be pushed out. */
+  min-width: 0;
+}
+
+/* The pen figure: a fixed canvas at the size the shapes were laid out for, so
+   the wobble stays the same width here as everywhere else. */
+.tile-art {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 60px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* The live-rate tile keeps its spark on a line of its own, under both columns. */
+.tile-figure > .spark {
+  flex: 0 0 100%;
+}
+
+.spark {
+  position: relative;
+  height: 26px;
+  margin-top: 6px;
+}
+
+/* ---------------------------------------------------------------- tabs -- */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-family: var(--font-hand);
+  font-size: 15px;
+  color: var(--muted);
+  padding: 5px 12px;
+}
+.tab:hover {
+  color: var(--ink-soft);
+}
+.tab[aria-pressed="true"] {
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------- grid -- */
+
+.grid {
+  display: grid;
+  /* The 310px floor is the card's readable minimum, but a phone narrower than
+     that (a folded Fold is 280) would push the track past the shell's padding
+     and scroll the page sideways. `min()` keeps the floor on any screen wide
+     enough for it and yields to the container below that. */
+  grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr));
+  gap: var(--gap);
+}
+
+/* ---------------------------------------------------------------- card -- */
+
+.card {
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 14px 16px 15px;
+  transition: transform 120ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  row-gap: 6px;
+}
+
+.card-flag {
+  flex: none;
+  /* Larger than the flag by the room the frame needs: the drawing sits two
+     pixels in from the edge and wanders two more either way, so a flag that
+     filled its box would cover the line. */
+  width: 46px;
+  height: 34px;
+  padding: 5px;
+  transform: rotate(-1.2deg);
+}
+
+.card-os {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  transform: rotate(1deg);
+  opacity: 0.9;
+}
+
+.detail-flag {
+  flex: none;
+  width: 66px;
+  height: 48px;
+  padding: 6px;
+  transform: rotate(-1.2deg);
+}
+
+.detail-os {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  transform: rotate(1deg);
+  opacity: 0.9;
+}
+
+.card-flag .flag-ink,
+.detail-flag .flag-ink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Held back from the package's own strength: a flag at full saturation beside
+     a page of pencil strokes reads as pasted on, and the paper showing through
+     is what makes it read as coloured in. */
+  filter: saturate(0.55) contrast(0.9);
+  opacity: 0.88;
+}
+
+.card-os .os-ink,
+.detail-os .os-ink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: saturate(0.7) contrast(0.95);
+  opacity: 0.85;
+}
+
+.card-name {
+  font-family: var(--font-hand);
+  font-size: 17px;
+  line-height: 1.25;
+  /* The name's weight in the line break: with a fixed basis the badges are
+     weighed on their own, and the name no longer shrinks to zero to make room
+     for them. 100px keeps one badge beside the name, and lets the pair move to
+     a line of their own when there is no room for both. The name itself wraps
+     rather than ellipsises, so a long machine name is read in full. */
+  flex: 1 1 100px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Right-aligned on whichever line it lands on: beside the name when the
+     badges fit there, on a line of their own when they do not. */
+  margin-left: auto;
+}
+
+/* The remark as a small annotation: a dashed pen box over a patch of clean
+   paper, which is what sets it apart from the card's own shading. The ellipsis
+   is on the text inside rather than on the box, so the frame is never clipped. */
+.card-remark {
+  margin-top: 7px;
+  padding: 3px 8px;
+  background: var(--paper-2);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.card-remark-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-meters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.meter-row {
+  display: grid;
+  /* The figure column is fixed, not sized to its content: the four meters on a
+     card are read against each other, and a column that grows for "231 / 500 GB"
+     would leave the bars ending at four different places.
+     122px is what the widest value needs -- "1023 MB / 2.00 GB", the fallback
+     pair() uses when the two figures straddle a unit boundary -- and is the
+     figure its own comment in format.ts is written against. */
+  grid-template-columns: 34px minmax(0, 1fr) 122px;
+  align-items: center;
+  gap: 9px;
+}
+
+.meter-name {
+  font-family: var(--font-hand);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.meter-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+  /* The reading, not the label: full ink, so the figure is what the row is read
+     for. The label is muted, so the figure was already the darker of the two --
+     what was left was weight, and the size stays at 11.5px because the 122px
+     column above is sized for the longest value the format can produce (about
+     115px here, about 120px one step up). One step up still fits on this machine
+     but leaves almost nothing for a fallback face to be wider than the one
+     measured, so the size is left alone. */
+  color: var(--ink);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-latency {
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.card-latency-lines {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.card-latency-lines > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-latency-lines dt {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.card-latency-lines dd {
+  margin: 0;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.card-latency-lines dd.latency-timeout {
+  color: var(--bad);
+}
+
+/* The hour behind the reading, in the space the row leaves between the probe's
+   name and its value. The height is what the line and the readout over it need. */
+.latency-spark {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 22px;
+}
+
+.latency-spark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* The line answers the pointer, so it should say so. */
+  cursor: crosshair;
+}
+
+.latency-spark text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+/* The reading under the pointer: the one thing in the row that is not written
+   down anywhere else. */
+.latency-spark .latency-spark-readout {
+  fill: var(--ink-soft);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.io {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+}
+
+/* A tile wide enough for one figure but not for two wraps the pair as a unit.
+   Truncating the second figure is what happens otherwise, and "12.6 GI" is
+   worse than a second line. The plain-text notes keep their ellipsis. */
+.tile-note:has(> .io) {
+  white-space: normal;
+}
+
+.io-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.io-item.down {
+  color: var(--accent);
+}
+.io-item.up {
+  color: var(--plum);
+}
+
+/* --------------------------------------------------------------- badge -- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 9px 2px;
+  font-family: var(--font-hand);
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+  background: currentColor;
+}
+
+.badge.ok {
+  color: var(--ok);
+}
+.badge.warn {
+  color: var(--warn);
+}
+.badge.bad {
+  color: var(--bad);
+}
+.badge.off {
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------- detail -- */
+
+.detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 18px 17px;
+}
+
+.detail-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-title h1 {
+  font-family: var(--font-hand);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px 22px;
+  padding: 15px 18px 17px;
+}
+
+.fact {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 5px;
+}
+
+.fact-key {
+  font-family: var(--font-hand);
+  font-size: 13px;
+  /* `--muted` is a 3.7:1 grey: at 13px these read as pencil dust rather than as
+     the name of a reading, and the icon beside each one is stroked in the same
+     colour. `--ink-soft` is 7.4:1 and still a step below the value's `--ink`,
+     so the pair keeps its key/value order. */
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.fact-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fact-value.hand {
+  font-family: var(--font-hand);
+  font-size: 14px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-hand);
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.panels {
+  display: grid;
+  /* One panel per row, at every width. Each of the four is a plot read against
+     its own y axis, and side by side they were being squeezed into half the
+     page: the byte axes need room for labels like `1.2 GiB`, and the network
+     panel carries two series on one logarithmic scale. Full width keeps the
+     reading legible and gives the four panels one consistent shape. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+}
+
+.panel {
+  padding: 13px 15px 10px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-title {
+  font-family: var(--font-hand);
+  font-size: 15px;
+}
+
+.panel-now {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  /* One step under the title in size, but in the title's own ink: at 13px in
+     `--ink-soft` the label outranked the figure on size and on weight both. */
+  font-size: 14px;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------- chart -- */
+
+.chart {
+  position: relative;
+  width: 100%;
+}
+
+.chart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chart .sketch-layer {
+  width: 100%;
+  height: 100%;
+}
+
+.chart text {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  /* `--faint` is a rule colour, not an ink one: at 2.2:1 on paper the tick
+     labels were decoration. They are readings -- the axis a series is measured
+     against -- so they wear `--ink-soft`, the same ink as the panel's own
+     reading, at 7.4:1 light and 9:1 dark. */
+  fill: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------------- misc -- */
+
+.empty {
+  padding: 44px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-hand);
+  font-size: 16px;
+}
+
+.loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-hand);
+  font-size: 16px;
+}
+
+.error {
+  padding: 12px 15px;
+  color: var(--bad);
+  font-size: 13.5px;
+}
+
+.footer {
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Four items stop fitting on one line on a phone. */
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+.footer a:hover {
+  color: var(--muted);
+}
+
+/* The author credit keeps the same quiet colour and steps down a size, so it
+   reads as a footnote to the licence line rather than as a link of its own. */
+.footer .credit {
+  font-size: 0.9em;
+}
+
+/* ------------------------------------------------------------- world map -- */
+
+/* Drawn on the page rather than on a panel of its own. The frame is the same
+   hand-drawn border the cards wear, so the map reads as one more sheet in the
+   stack; everything inside it that carries a reading -- the coastline, the
+   graticule, the marker dots -- is either exact or quiet enough to read past. */
+
+.map-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 389;
+  cursor: grab;
+  /* The pointer is the pan gesture here, so the browser must not claim it for
+     scrolling first. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.map[data-panning="1"] {
+  cursor: grabbing;
+}
+
+.map:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
+}
+
+.map-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--map-sea);
+}
+
+.map-land {
+  color: var(--map-coast);
+}
+
+.map-land path {
+  fill: url(#map-land);
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+/* The map's own graticule, drawn rather than ruled: the page's ruling shows
+   through the sea behind it, so a grid in the ruling's own colour would read as
+   the paper showing through rather than as a line on the map. */
+.map-grat line {
+  stroke: var(--rule);
+  stroke-width: 0.9;
+}
+
+/* The equator and the prime meridian are drawn a step darker again, so the map
+   has a spine to read the markers against. */
+.map-grat-main {
+  stroke: var(--muted);
+}
+
+/*
+ * Place names. Drawn at a point in map units but counter-scaled to the current
+ * zoom, so a label sits on the map and travels with it while staying the size
+ * of type -- letters that grow with the zoom stop being readable. Tracking is
+ * in em, which survives that counter-scale; a fixed px would not.
+ *
+ * Each name carries a halo in the colour of the surface under it, painted
+ * before the letters rather than after. Without one the pencil hatching runs
+ * straight through the strokes, and a name turns to noise exactly where the
+ * map is most worked -- over land. The halo is opaque where the fill is not,
+ * so it lifts the letters off the texture without making them darker than they
+ * should be.
+ */
+.map-label {
+  font-family: var(--font-hand);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  fill: var(--ink);
+  fill-opacity: 0.8;
+  paint-order: stroke;
+  stroke: var(--map-land);
+  stroke-width: 2.6px;
+  stroke-linejoin: round;
+}
+
+/* Sea names take the water's own colour, the way an atlas prints them. */
+.map-label[data-kind="ocean"] {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  fill: var(--map-sea-ink);
+  fill-opacity: 0.9;
+  stroke: var(--map-sea);
+}
+
+.map-frame {
+  color: var(--ink);
+}
+
+.map-frame path {
+  stroke-linecap: round;
+}
+
+/* ----------------------------------------------------------------- marks -- */
+
+/* One tone per state, in the same four the badges use -- plus `idle`, which is
+   online but not reporting, and is drawn as a hollow dot rather than as a fifth
+   colour. */
+.map-wrap [data-tone="ok"] {
+  --tone: var(--ok);
+}
+.map-wrap [data-tone="warn"] {
+  --tone: var(--warn);
+}
+.map-wrap [data-tone="bad"] {
+  --tone: var(--bad);
+}
+.map-wrap [data-tone="off"] {
+  --tone: var(--muted);
+}
+.map-wrap [data-tone="idle"] {
+  --tone: var(--faint);
+}
+
+.map-mark {
+  color: var(--tone);
+}
+
+/* The ring is what answers the pointer, and scaling it rather than the whole
+   marker leaves the exact dot -- and so the status colour -- where it was. */
+.map-ring {
+  transition: transform 140ms cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.map-mark[data-on="1"] .map-ring {
+  transform: scale(1.16);
+}
+
+.map-dot {
+  fill: var(--tone);
+  stroke: var(--paper);
+  stroke-width: 1.1;
+}
+
+.map-mark[data-tone="idle"] .map-dot {
+  fill: var(--paper);
+  stroke: var(--tone);
+  stroke-width: 1.6;
+}
+
+.map-count {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  fill: var(--paper);
+  pointer-events: none;
+}
+
+.map-mark[data-tone="idle"] .map-count {
+  fill: var(--tone);
+}
+
+.map-compass {
+  color: var(--muted);
+  fill: none;
+}
+
+.map-compass path {
+  stroke-linecap: round;
+}
+
+.map-compass-n {
+  font-family: var(--font-hand);
+  font-size: 11px;
+  fill: var(--muted);
+  stroke: none;
+}
+
+/* ------------------------------------------------------------- the hits -- */
+
+/* Real buttons over the drawing. The map itself is decoration and cannot be
+   tabbed to; a marker has to be reachable, and announced, as a control. */
+.map-hits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map-hit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--tone);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.map-hit:focus-visible {
+  outline: 2px dashed currentColor;
+  outline-offset: 1px;
+}
+
+.map-tip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 13px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 9px 4px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.map-tip[data-side="below"] {
+  transform: translate(-50%, 13px);
+}
+
+.map-tip b {
+  font-family: var(--font-hand);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.map-tip span {
+  color: var(--muted);
+}
+
+.map-zoom {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.map-zoom button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.map-zoom button:hover:not(:disabled) {
+  border-color: var(--muted);
+  color: var(--ink);
+}
+
+.map-zoom button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.map-zoom-level {
+  min-width: 30px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+
+/* ------------------------------------------------------------ the panel -- */
+
+/* Always in the layout, even with nothing in it, so selecting a country does
+   not shove the cards down the page. */
+.map-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 40px;
+}
+
+/* The panel a click opens gets the same hand-drawn frame as a card, so what
+   answers the click reads as a thing rather than as a line of text that
+   appeared under the map. It hugs its own content rather than the map's width:
+   a frame ruled from edge to edge reads as a banner, not as a card. */
+.map-box {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 10px 12px;
+}
+
+.map-panel-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-hand);
+  font-size: 14px;
+}
+
+.map-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.map-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px 4px;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-size: 12.5px;
+  text-decoration: none;
+}
+
+.map-node:hover {
+  border-color: var(--muted);
+}
+
+.map-node-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tone);
+}
+
+.map-node[data-tone="idle"] .map-node-dot {
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid var(--tone);
+  background: none;
+}
+
+.map-node-name {
+  font-family: var(--font-hand);
+}
+
+.map-node-fig {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.map-dim {
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.map-hint {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-hand);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+  .map-tip,
+  .map-zoom-level {
+    display: none;
+  }
+  .map-node .map-dim {
+    display: none;
+  }
+}
