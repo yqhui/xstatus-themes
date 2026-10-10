@@ -127,7 +127,7 @@ function ServicesPage() {
       <div className="native-card-body"><p className="native-description">{s.desc}</p><div className="native-service-stats"><div><b>{s.uptime_pct === 100 ? "100%" : number(s.uptime_pct, 2, "%")}</b><small>近 30 天可用率</small></div><div><b>{number(s.latency_ms, 0, " ms")}</b><small>平均响应</small></div><div><b>{s.running_since > 0 ? `${Math.max(1, Math.floor((Date.now() / 1000 - s.running_since) / 86400))} 天` : "—"}</b><small>已运行</small></div></div>
         <div className="native-service-days" role="group" aria-label={`${s.name}近30天可用性`}>{s.days.map(day => {
           const text = `${new Date(day.d * 1000).toISOString().slice(0, 10)} · ${labels[day.s]} · ${number(day.p, 2, "%")}`;
-          return <button key={day.d} type="button" aria-label={text} title={text} className={day.s} onClick={e => e.currentTarget.focus()}><span className="native-day-tooltip">{text}</span></button>;
+          return <button key={day.d} type="button" aria-label={text} title={text} className={day.s} onClick={e => e.currentTarget.focus()}><span role="tooltip" className="native-day-tooltip">{text}</span></button>;
         })}</div>
         <div className="native-meta"><span>30 天中 {s.days.filter(d => d.s === "normal").length} 天全部正常</span><span>未知时段不计入可用率</span></div>
       </div>
