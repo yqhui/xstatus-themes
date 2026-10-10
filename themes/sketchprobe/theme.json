@@ -1,7 +1,7 @@
 {
   "name": "SketchProbe · XStatus",
   "short": "sketchprobe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "spa",
   "author": "moxuun / yqhui",
   "description": "原生 XStatus 手绘纸张主题，节点卡片、网络质量、服务状态。",

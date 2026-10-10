@@ -4,12 +4,12 @@ SketchProbe 和 Win2000 的 XStatus 原生移植。直接使用 XStatus 自己�
 API、WebSocket 和主题清单协议，不需要极简探针兼容层，也不替换全局
 fetch/WebSocket。切回内置主题或删除主题即可恢复宿主前台。
 
-后台 → 主题 → 安装主题 → GitHub，输入 `yqhui/xstatus-themes`。
+后台 → 主题设置 → 安装主题 → GitHub，输入 `yqhui/xstatus-themes`。
 latest release 提供两个独立 `.tar.gz`，主题中心会逐项安装。
 没有 release 时，仓库 `themes/<short>` 也包含可安装产物。
 
 要求 XStatus 支持 `type:"spa"`、合集安装及 `docs/10-themes.md` 所列原生
-接口（本次对应 `worktree-theme-align`，尚未合并 main）。
+接口。主题包包含 21:9 的高清封面，主题设置页可直接预览。
 
 页面：
 

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="540" viewBox="0 0 1260 540">
+  <defs>
+    <linearGradient id="desktop" x2="1" y2="1"><stop stop-color="#006969"/><stop offset="1" stop-color="#0a8982"/></linearGradient>
+    <linearGradient id="title"><stop stop-color="#000080"/><stop offset="1" stop-color="#2b87b9"/></linearGradient>
+    <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="#ffffff" opacity=".04"/></pattern>
+    <filter id="shadow"><feDropShadow dx="12" dy="14" stdDeviation="0" flood-color="#003c3c" flood-opacity=".45"/></filter>
+  </defs>
+  <rect width="1260" height="540" fill="url(#desktop)"/><rect width="1260" height="540" fill="url(#dots)"/>
+  <g font-family="Georgia,serif" fill="#f3f9e8">
+    <text x="69" y="100" font-size="15" letter-spacing="4">XSTATUS / NATIVE THEME</text>
+    <text x="63" y="201" font-size="80">Win</text><text x="63" y="288" font-size="80">2000.</text>
+    <text x="71" y="350" font-size="22">Your network. Old-school cool.</text>
+    <text x="72" y="417" font-family="monospace" font-size="14" letter-spacing="2">NODES / NETWORK / SERVICES</text>
+  </g>
+  <g transform="translate(526 62)" filter="url(#shadow)" font-family="monospace">
+    <rect width="649" height="377" fill="#c0c0c0" stroke="#0c3034" stroke-width="2"/>
+    <path d="M1 375V1H647" fill="none" stroke="#fff" stroke-width="2"/><path d="M646 2V374H2" fill="none" stroke="#555" stroke-width="2"/>
+    <rect x="6" y="6" width="637" height="31" fill="url(#title)"/>
+    <g fill="#fff"><text x="18" y="27" font-size="16" font-weight="bold">XStatus - Network Neighborhood</text></g>
+    <g fill="#c0c0c0" stroke="#fff"><rect x="565" y="12" width="21" height="20"/><rect x="590" y="12" width="21" height="20"/><rect x="615" y="12" width="21" height="20"/></g>
+    <g stroke="#111" stroke-width="2"><path d="M570 26H581M595 17H606V27H595ZM620 16L631 27M631 16L620 27"/></g>
+    <g fill="#111" font-size="13"><text x="19" y="60">File</text><text x="74" y="60">View</text><text x="135" y="60">Tools</text><text x="199" y="60">Help</text></g>
+    <path d="M9 71H640" stroke="#777"/><path d="M9 73H640" stroke="#fff"/>
+    <rect x="15" y="86" width="619" height="231" fill="#f8f8ef"/>
+    <path d="M16 316V87H634" stroke="#666" fill="none"/><path d="M633 88V315H17" stroke="#fff" fill="none"/>
+    <rect x="19" y="90" width="611" height="31" fill="#e6e6dd"/>
+    <g fill="#182020" font-size="12"><text x="34" y="110">COMPUTER</text><text x="284" y="110">LATENCY</text><text x="387" y="110">CPU</text><text x="479" y="110">UPTIME</text></g>
+    <g stroke="#ddd"><path d="M21 174H628M21 227H628M21 280H628"/></g>
+    <g font-size="13" fill="#102020">
+      <text x="81" y="153">TOKYO-01</text><text x="287" y="153">18.4 ms</text><text x="390" y="153">12%</text><text x="481" y="153">142 days</text>
+      <text x="81" y="206">HONGKONG-02</text><text x="287" y="206">7.2 ms</text><text x="390" y="206">8%</text><text x="481" y="206">98 days</text>
+      <text x="81" y="259">FRANKFURT-03</text><text x="287" y="259">42.8 ms</text><text x="390" y="259">21%</text><text x="481" y="259">211 days</text>
+    </g>
+    <g stroke="#183637" fill="#c0c0c0">
+      <path d="M34 133H67V157H34Z"/><path d="M34 186H67V210H34Z"/><path d="M34 239H67V263H34Z"/>
+      <path d="M44 160H57M50 157V160M44 213H57M50 210V213M44 266H57M50 263V266"/>
+    </g>
+    <g fill="#0f7660"><rect x="38" y="137" width="25" height="16"/><rect x="38" y="190" width="25" height="16"/><rect x="38" y="243" width="25" height="16"/></g>
+    <g stroke="#71e594" stroke-width="2" fill="none"><path d="M40 147L44 147 47 141 50 151 54 144H61M40 200L44 200 47 194 50 204 54 197H61M40 253L44 253 47 247 50 257 54 250H61"/></g>
+    <g fill="#111" font-size="12"><text x="28" y="301">3 computers online</text><text x="417" y="301">All services operational</text></g>
+    <path d="M15 334H633V361H15Z" fill="#c0c0c0" stroke="#777"/><path d="M17 360H632" stroke="#fff"/>
+    <circle cx="30" cy="347" r="4" fill="#127e49"/><text x="43" y="352" font-size="12" fill="#111">Connected</text><text x="486" y="352" font-size="12" fill="#111">100.0 Mbps</text>
+  </g>
+  <rect y="496" width="1260" height="44" fill="#c0c0c0"/><path d="M0 497H1260M2 500H1258" stroke="#fff"/>
+  <g transform="translate(10 505)" font-family="monospace">
+    <rect width="90" height="28" fill="#c0c0c0" stroke="#fff"/><path d="M89 1V27H1" stroke="#555" fill="none"/>
+    <g transform="translate(9 6)"><path d="M0 0H9V8H0Z" fill="#e34231"/><path d="M11 0H20V8H11Z" fill="#65a238"/><path d="M0 10H9V18H0Z" fill="#3d8cb9"/><path d="M11 10H20V18H11Z" fill="#f7c941"/></g>
+    <text x="38" y="19" font-size="14" font-weight="bold">Start</text>
+    <rect x="103" width="223" height="28" fill="#d5d5d5" stroke="#666"/><text x="115" y="19" font-size="12">XStatus - Connected</text>
+    <rect x="1124" width="112" height="28" fill="#c0c0c0" stroke="#777"/><text x="1145" y="19" font-size="12">20:00</text>
+  </g>
+</svg>

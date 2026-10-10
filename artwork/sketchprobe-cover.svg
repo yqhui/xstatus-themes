@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="540" viewBox="0 0 1260 540">
+  <defs>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#c9d4d1" stroke-width="1" opacity=".5"/></pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="6" dy="9" stdDeviation="0" flood-color="#243b35" flood-opacity=".12"/></filter>
+    <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0V7" stroke="#387964" stroke-width="2" opacity=".3"/></pattern>
+  </defs>
+  <rect width="1260" height="540" fill="#f8f4e8"/><rect width="1260" height="540" fill="url(#grid)"/>
+  <path d="M918-35C1090 62 1184 228 1292 468" fill="none" stroke="#e6eddc" stroke-width="200"/>
+  <g fill="#203f36" font-family="Georgia,serif">
+    <text x="72" y="87" font-size="15" letter-spacing="4">XSTATUS / NATIVE THEME</text>
+    <text x="67" y="201" font-size="72" font-style="italic">Sketch</text>
+    <text x="71" y="284" font-size="72" font-style="italic">Probe.</text>
+    <path d="M74 304Q179 296 347 308M76 310Q224 302 334 315" fill="none" stroke="#edb650" stroke-width="8" stroke-linecap="round"/>
+    <text x="75" y="362" font-size="22">A little rough. Always alive.</text>
+    <text x="76" y="421" font-size="14" letter-spacing="1.4">NODES / NETWORK / SERVICES</text>
+  </g>
+  <g transform="translate(510 67) rotate(-3 300 200)" filter="url(#shadow)">
+    <path d="M4 8L638 0 645 382 0 388Z" fill="#fffdf5" stroke="#29463b" stroke-width="3"/>
+    <path d="M8 47L639 42M7 50L638 45" stroke="#29463b" fill="none" stroke-width="1.6"/>
+    <g fill="#29463b" font-family="Georgia,serif"><text x="26" y="31" font-size="18" font-style="italic">the observatory</text><text x="495" y="29" font-size="12">ALL SYSTEMS GO</text></g>
+    <circle cx="475" cy="25" r="5" fill="#3a8f69"/>
+    <g transform="translate(28 74)">
+      <path d="M0 2L177 0 180 154 2 158Z" fill="#edf4e7" stroke="#29463b" stroke-width="2"/>
+      <circle cx="16" cy="20" r="5" fill="#3a8f69"/>
+      <g font-family="Georgia,serif" fill="#29463b"><text x="28" y="25" font-size="16">Tokyo</text><text x="15" y="69" font-size="34">18.4</text><text x="102" y="67" font-size="13">ms</text><text x="16" y="140" font-size="11">CPU 12% / RAM 38%</text></g>
+      <path d="M15 109L27 100 38 104 50 94 61 99 73 85 84 97 96 88 109 94 122 74 138 92 160 87" fill="none" stroke="#387964" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(230 74)">
+      <path d="M0 1L177 2 179 158 1 155Z" fill="#fff9e7" stroke="#29463b" stroke-width="2"/>
+      <circle cx="16" cy="20" r="5" fill="#3a8f69"/>
+      <g font-family="Georgia,serif" fill="#29463b"><text x="28" y="25" font-size="16">Hong Kong</text><text x="15" y="69" font-size="34">7.2</text><text x="91" y="67" font-size="13">ms</text><text x="16" y="140" font-size="11">CPU 8% / RAM 24%</text></g>
+      <path d="M15 104L28 99 40 105 55 96 68 99 81 89 95 97 109 92 120 99 136 93 160 97" fill="none" stroke="#b68832" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(432 74)">
+      <path d="M0 2L177 0 180 156 1 158Z" fill="#edf4e7" stroke="#29463b" stroke-width="2"/>
+      <circle cx="16" cy="20" r="5" fill="#3a8f69"/>
+      <g font-family="Georgia,serif" fill="#29463b"><text x="28" y="25" font-size="16">Frankfurt</text><text x="15" y="69" font-size="34">42.8</text><text x="111" y="67" font-size="13">ms</text><text x="16" y="140" font-size="11">CPU 21% / RAM 46%</text></g>
+      <path d="M15 114L28 102 42 109 55 83 67 102 81 92 94 100 109 84 120 96 139 78 160 89" fill="none" stroke="#387964" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <path d="M30 256L609 252 610 345 28 350Z" fill="#f8faef" stroke="#29463b" stroke-width="2"/>
+    <g font-family="Georgia,serif" fill="#29463b"><text x="46" y="280" font-size="13">thirty good days</text><text x="518" y="280" font-size="13">99.98%</text></g>
+    <path d="M46 311H590" stroke="#bdd2ba" stroke-width="25" stroke-dasharray="13 5"/>
+    <path d="M46 311H590" stroke="url(#hatch)" stroke-width="25"/>
+  </g>
+  <path d="M1029 452Q1100 455 1165 399M1150 397L1169 395 1165 416" fill="none" stroke="#29463b" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="985" y="487" font-family="Georgia,serif" font-size="19" font-style="italic" fill="#29463b" transform="rotate(-4 985 487)">drawn to stay online</text>
+</svg>
