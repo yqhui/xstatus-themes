@@ -1,7 +1,7 @@
 {
   "name": "Win2000 · XStatus",
   "short": "win2000",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "spa",
   "author": "guboysky / tom2almighty / yqhui",
   "description": "原生 XStatus 经典桌面主题，节点卡片、网络质量、服务状态。",

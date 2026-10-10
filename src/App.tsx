@@ -4,6 +4,7 @@ import { useNodes, useResource } from "./hooks";
 import { SketchBar, SketchBox, SketchProvider } from "./sketch/Sketch";
 import type { MetricPoint, Node, QualityRow, Series, Service, ServiceState, Site } from "./types";
 declare const __THEME__: string;
+declare const __THEME_VERSION__: string;
 const retro = __THEME__ === "win2000";
 const labels: Record<ServiceState, string> = { normal: "正常", partial: "部分故障", down: "全部故障", unknown: "未知" };
 const ranges = [["1h", "最近 1 小时"], ["24h", "最近 24 小时"], ["7d", "最近 7 天"], ["30d", "最近 30 天"]];
@@ -194,7 +195,7 @@ export function App() {
         <Notice error={site.error} loading={!site.data && !site.error} />
         {site.data && (!knownPage ? <p className="native-notice">页面不存在。<a href="/">返回首页</a></p> : !modules.includes(activeModule) ? <p className="native-notice">此公开模块尚未启用。{modules[0] && <a href={modules[0] === "network_quality" ? "/network-quality" : modules[0] === "service_status" ? "/services" : "/"}>打开已启用页面</a>}</p> :
           page === "/network-quality" ? <NetworkPage /> : page === "/services" ? <ServicesPage /> : page.startsWith("/nodes/") ? <NodeDetail id={nodeID} nodes={nodes.data} /> : <main className="native-main native-nodes-main"><Notice error={nodes.error} loading={!nodes.data && !nodes.error} empty={!!nodes.data && !nodes.data.length} /><section className="native-nodes" aria-label="节点卡片">{nodes.data?.map(node => <NodeCard key={node.id} node={node} />)}</section></main>)}
-        <footer className={retro ? "status-bar native-footer" : "native-footer"}><span className={retro ? "status-field grow" : ""}>XStatus · {retro ? "Win2000" : "SketchProbe"} · 原生主题</span>{activeModule === "node_list" && <span className={retro ? "status-field" : ""}>{nodes.connected ? "实时连接" : "定时刷新"}</span>}<span className={retro ? "status-field" : ""}>主题 v1.0.0</span></footer>
+        <footer className={retro ? "status-bar native-footer" : "native-footer"}><span className={retro ? "status-field grow" : ""}>XStatus · {retro ? "Win2000" : "SketchProbe"} · 原生主题</span>{activeModule === "node_list" && <span className={retro ? "status-field" : ""}>{nodes.connected ? "实时连接" : "定时刷新"}</span>}<span className={retro ? "status-field" : ""}>主题 v{__THEME_VERSION__}</span></footer>
       </div>
     </div>
   </SketchProvider>;
